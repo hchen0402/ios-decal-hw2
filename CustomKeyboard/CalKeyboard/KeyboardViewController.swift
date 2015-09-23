@@ -11,6 +11,9 @@ import UIKit
 class KeyboardViewController: UIInputViewController {
 
     @IBOutlet var nextKeyboardButton: UIButton!
+    @IBOutlet var returnButton: UIButton!
+    @IBOutlet var deleteButton: UIButton!
+    @IBOutlet var insertButton: UIButton!
     
     var keyboardView: UIView!
 
@@ -38,6 +41,18 @@ class KeyboardViewController: UIInputViewController {
         // The app has just changed the document's contents, the document context has been updated.
     }
 
+    func returnjob() {
+        (textDocumentProxy as UITextDocumentProxy).insertText("\n")
+    }
+    
+    func delete() {
+        (textDocumentProxy as UITextDocumentProxy).deleteBackward()
+    }
+    
+    func insert() {
+        (textDocumentProxy as UITextDocumentProxy).insertText(String(UnicodeScalar(0x1F601)))
+    }
+    
     func loadInterface() {
         let keyboardNib = UINib(nibName: "Keyboard", bundle: nil)
         keyboardView = keyboardNib.instantiateWithOwner(self, options: nil)[0] as! UIView
@@ -45,7 +60,8 @@ class KeyboardViewController: UIInputViewController {
         view.addSubview(keyboardView)
         view.backgroundColor = keyboardView.backgroundColor
         nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside) // advanceToNextInputMode is already defined in template
+        returnButton.addTarget(self, action: "returnjob", forControlEvents: .TouchUpInside)
+        deleteButton.addTarget(self, action: "delete", forControlEvents: .TouchUpInside)
+        insertButton.addTarget(self, action: "insert", forControlEvents: .TouchUpInside)
     }
-
-
 }
